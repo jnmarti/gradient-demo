@@ -12,6 +12,11 @@
 #
 # Last updated: Nov 03rd 2021
 
+on:
+  push:
+    branches:
+      - main
+
 jobs:
 
   cloneRepo:
