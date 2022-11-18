@@ -15,11 +15,11 @@
 jobs:
 
   cloneRepo:
-    # resources:
-    #   instance-type: C4
-    # outputs:
-    #   repo:
-    #     type: volume
+    resources:
+      instance-type: C4
+    outputs:
+      repo:
+        type: volume
     uses: git-checkout@v1
     with:
       url: context.event.github.url
