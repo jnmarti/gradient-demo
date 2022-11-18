@@ -12,7 +12,7 @@
 #
 # Last updated: Nov 03rd 2021
 
-on:
+'on':
   github:
     branches:
       only: main
