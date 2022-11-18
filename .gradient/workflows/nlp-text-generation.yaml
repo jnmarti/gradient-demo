@@ -12,46 +12,66 @@
 #
 # Last updated: Nov 03rd 2021
 
-on:
-  push:
-    branches:
-      - main
-
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
 jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v3
 
-  cloneRepo:
-    resources:
-      instance-type: C4
-    outputs:
-      repo:
-        type: volume
-    uses: git-checkout@v1
-    with:
-      url: context.event.github.url
-      ref: context.event.github.ref
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
 
-  generateText:
-    resources:
-      instance-type: C5
-    needs:
-      - cloneRepo
-    inputs:
-      repo: cloneRepo.outputs.repo
-    outputs:
-      generatedText:
-        type: dataset
-        with:
-          ref: demo-dataset
-    uses: script@v1
-    with:
-      script: |-
-        cp -R /inputs/repo /nlp
-        cd /nlp
-        pip3 install -U transformers
-        python3 nlp_text_generation.py
-        mv output.txt /outputs/generatedText
-        ls "-aFlR" /outputs/generatedText
-      image: paperspace/transformers-gpu:0.4.0
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+
+#   cloneRepo:
+#     resources:
+#       instance-type: C4
+#     outputs:
+#       repo:
+#         type: volume
+#     uses: git-checkout@v1
+#     with:
+#       url: context.event.github.url
+#       ref: context.event.github.ref
+
+#   generateText:
+#     resources:
+#       instance-type: C5
+#     needs:
+#       - cloneRepo
+#     inputs:
+#       repo: cloneRepo.outputs.repo
+#     outputs:
+#       generatedText:
+#         type: dataset
+#         with:
+#           ref: demo-dataset
+#     uses: script@v1
+#     with:
+#       script: |-
+#         cp -R /inputs/repo /nlp
+#         cd /nlp
+#         pip3 install -U transformers
+#         python3 nlp_text_generation.py
+#         mv output.txt /outputs/generatedText
+#         ls "-aFlR" /outputs/generatedText
+#       image: paperspace/transformers-gpu:0.4.0
 
 # Appendix: Extra details
 #
